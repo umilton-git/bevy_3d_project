@@ -25,7 +25,7 @@ fn setup(
 ) {
     // plane
     commands.spawn(PbrBundle {
-        mesh: meshes.add(shape::Plane::from_size(5.0).into()),
+        mesh: meshes.add(shape::Plane::from_size(50.0).into()),
         material: materials.add(Color::rgb(0.3, 0.5, 0.3).into()),
         ..default()
     });
@@ -94,9 +94,13 @@ fn movement_system(
     for (_rig, mut transform) in query.iter_mut() {
         let forward = transform.rotation * Vec3::Z;
         let right = transform.rotation * Vec3::X;
-
-        transform.translation +=
-            (forward * direction.z + right * direction.x) * move_speed * delta_time;
+        if keyboard_input.pressed(KeyCode::LShift) || keyboard_input.pressed(KeyCode::RShift) {
+            transform.translation +=
+                (forward * direction.z + right * direction.x) * move_speed * 2.0 * delta_time;
+        } else {
+            transform.translation +=
+                (forward * direction.z + right * direction.x) * move_speed * delta_time;
+        }
 
         // Apply global up and down movement
         transform.translation += global_direction * move_speed * delta_time;
