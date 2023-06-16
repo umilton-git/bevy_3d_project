@@ -1,4 +1,5 @@
 pub mod components;
+mod shaders;
 mod systems;
 
 use bevy::prelude::*;
