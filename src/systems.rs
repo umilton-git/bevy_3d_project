@@ -1,9 +1,8 @@
 use crate::components::*;
 use crate::shaders::*;
-use bevy::input::mouse::MouseMotion;
-use bevy::prelude::*;
-use bevy::window::CursorGrabMode;
-use bevy_ecs::prelude::Res;
+use bevy::{input::mouse::MouseMotion, prelude::*, window::CursorGrabMode};
+use bevy_asset::AssetServer;
+use bevy_ecs::prelude::{Commands, Res};
 
 /// set up a simple 3D scene
 
@@ -11,7 +10,11 @@ pub fn setup(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
+    _asset_server: Res<AssetServer>,
 ) {
+    // skybox
+    commands.insert_resource(ClearColor(Color::rgb(0.55, 1.82, 2.50)));
+
     // plane
     commands.spawn(PbrBundle {
         mesh: meshes.add(shape::Plane::from_size(50.0).into()),
@@ -45,6 +48,7 @@ pub fn setup(
             transform: Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
             ..default()
         })
+        .insert(UiCameraConfig { show_ui: true })
         .insert(CameraRig { pitch_angle: 0.0 });
 }
 

@@ -4,3 +4,6 @@ use bevy_ecs::prelude::*;
 pub struct CameraRig {
     pub pitch_angle: f32,
 }
+
+#[derive(Component)]
+pub struct FpsText;
